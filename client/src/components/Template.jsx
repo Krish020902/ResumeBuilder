@@ -2,22 +2,24 @@ import React from "react";
 // import { useState, useEffect } from "react";
 import data from "../data";
 // import img from "../image/img2.jpg";
+import "../index.css";
 export default function Template({ formData, setFormData }) {
   // useEffect(() => console.log(formData));
 
   return (
     // <div>
-    <span>
+    <ul className="template">
       {data.map((item) => {
         return (
-          <div>
-            {/* <img
+          <li className="select-template">
+            <img
               src={item.img}
               width="250"
-              height="250"
+              height="350"
+              className="image"
               // style="border-width:2px ;"
-            ></img> */}
-            {/* <div></div> */}
+            ></img>
+
             <button
               className="btn btn-primary"
               onClick={() => {
@@ -26,9 +28,9 @@ export default function Template({ formData, setFormData }) {
             >
               Select
             </button>
-          </div>
+          </li>
         );
       })}
-    </span>
+    </ul>
   );
 }

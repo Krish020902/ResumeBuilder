@@ -1,4 +1,4 @@
-module.exports = ({
+  module.exports = ({
   id,
   fname,
   lname,

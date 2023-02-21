@@ -5,6 +5,7 @@ const task = require("./route/tasks");
 const t3 = require("./pdf-sample/t3");
 const t1 = require("./pdf-sample/t1");
 const t2 = require("./pdf-sample/t2");
+const t4 = require("./pdf-sample/t4");
 
 const app = express();
 
@@ -41,6 +42,16 @@ app.post("/create-pdf/:id", (req, res) => {
   }
   if (id == 3) {
     pdf.create(t3(req.body), {}).toFile("Resume.pdf", (err) => {
+      if (err) {
+        res.send(Promise.reject());
+        console.log(err);
+      }
+      res.send(Promise.resolve());
+      console.log("Success");
+    });
+  }
+  if (id == 4) {
+    pdf.create(t4(req.body), {}).toFile("Resume.pdf", (err) => {
       if (err) {
         res.send(Promise.reject());
         console.log(err);
