@@ -1,11 +1,11 @@
 import "./App.css";
 import Form from "./components/Form";
-
+import { RouterProvider } from "react-router-dom";
+import User from "./components/User";
 function App() {
   return (
     <div className="App">
-      <h1 className="text-center">Let's generate your Resume!</h1>
-      <Form />
+      <RouterProvider router={User} />
     </div>
   );
 }

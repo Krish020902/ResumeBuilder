@@ -23,17 +23,17 @@ const template = [
     id: "4",
     img: img4,
   },
-  {
-    id: "5",
-    // img: img5,
-  },
-  {
-    id: "6",
-    // img: img6,
-  },
-  {
-    id: "7",
-    // img: img7,
-  },
+  // {
+  //   id: "5",
+  //   // img: img5,
+  // },
+  // {
+  //   id: "6",
+  //   // img: img6,
+  // },
+  // {
+  //   id: "7",
+  //   // img: img7,
+  // },
 ];
 export default template;

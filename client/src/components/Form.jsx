@@ -8,6 +8,7 @@ import Template from "./Template";
 import axios from "axios";
 import { saveAs } from "file-saver";
 import Success from "./Success";
+
 const Form = () => {
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -66,6 +67,7 @@ const Form = () => {
 
   return (
     <div>
+      <h1 className="text-center">Let's generate your Resume!</h1>
       <div className="d-flex justify-content-center">
         <h1 className="text-center">{FormTitle[page]}</h1>
       </div>
