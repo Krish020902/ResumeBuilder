@@ -154,12 +154,12 @@ function SignIn() {
                   >
                     Sign up
                   </button>
-                  {/* <div className="small fw-bold mt-2 pt-1 mb-0">
-                    Don't have an account? &nbsp;
-                    <Link to="/register" className="text-decoration-none">
-                      Register
+                  <div className="small fw-bold mt-2 pt-1 mb-0">
+                    Already have an account? &nbsp;
+                    <Link to="/Login" className="text-decoration-none">
+                      LOGIN
                     </Link>
-                  </div> */}
+                  </div>
 
                   {/* Register buttons */}
                 </form>
