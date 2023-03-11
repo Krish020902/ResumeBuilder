@@ -23,6 +23,7 @@ export default function Template({ formData, setFormData }) {
             <button
               className="btn btn-primary"
               onClick={() => {
+                
                 setFormData({ ...formData, id: item.id });
               }}
             >

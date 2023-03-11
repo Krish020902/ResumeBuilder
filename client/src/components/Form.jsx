@@ -105,11 +105,11 @@ const Form = () => {
               console.log(formData.id);
               await axios
                 .post(
-                  `http://localhost:4000/create-pdf/${formData.id}`,
+                  `http://localhost:4000/task/create-pdf/${formData.id}`,
                   formData //:$%7BformData.id%7D
                 )
                 .then(() =>
-                  axios.get("http://localhost:4000/fetch-pdf", {
+                  axios.get("http://localhost:4000/task/fetch-pdf", {
                     responseType: "blob",
                   })
                 )

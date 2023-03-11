@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 function SignIn() {
   const navigate = useNavigate();
 
@@ -9,10 +10,16 @@ function SignIn() {
     l_name: "",
     email: "",
     pass: "",
-    c_pass: "",
+    // c_pass: "",
   });
-  const onClickHandler = (e) => {
+  const onClickHandler = async (e) => {
     e.preventDefault();
+    try {
+      await axios.post("http://localhost:4000/user/signin", formData);
+    } catch (error) {
+      console.log(`${error}`);
+    }
+
     navigate("/Form");
   };
   return (
@@ -126,7 +133,7 @@ function SignIn() {
                     </label>
                   </div>
 
-                  <div className="form-outline mb-4">
+                  {/* <div className="form-outline mb-4">
                     <input
                       type="password"
                       id="form3Example4"
@@ -142,7 +149,7 @@ function SignIn() {
                     <label className="form-label" htmlFor="form3Example4">
                       Confirm Password
                     </label>
-                  </div>
+                  </div> */}
 
                   {/* Checkbox */}
 

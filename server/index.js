@@ -1,73 +1,26 @@
 const express = require("express");
 const cors = require("cors");
-const pdf = require("html-pdf");
+const connectDB = require("./Userdb/connect");
 const task = require("./route/tasks");
-const t3 = require("./pdf-sample/t3");
-const t1 = require("./pdf-sample/t1");
-const t2 = require("./pdf-sample/t2");
-const t4 = require("./pdf-sample/t4");
-
+const user = require("./route/user");
+// const connect = require("./route/tasks");
 const app = express();
-
-const port = 4000;
+require("dotenv").config();
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.post("/create-pdf/:id", (req, res) => {
-  // console.log(id);
-
-  const id = req.params.id;
-
-  if (id == 1) {
-    pdf.create(t1(req.body), {}).toFile("Resume.pdf", (err) => {
-      if (err) {
-        res.send(Promise.reject());
-        console.log(err);
-      }
-      res.send(Promise.resolve());
-      console.log("Success");
+app.use("/task", task);
+app.use("/user", user);
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(port, () => {
+      console.log(`Server is running on port=${port}`);
     });
+  } catch (error) {
+    console.log(`Sorry connection ! ${error}`);
   }
-  if (id == 2) {
-    pdf.create(t2(req.body), {}).toFile("Resume.pdf", (err) => {
-      if (err) {
-        res.send(Promise.reject());
-        console.log(err);
-      }
-      res.send(Promise.resolve());
-      console.log("Success");
-    });
-  }
-  if (id == 3) {
-    pdf.create(t3(req.body), {}).toFile("Resume.pdf", (err) => {
-      if (err) {
-        res.send(Promise.reject());
-        console.log(err);
-      }
-      res.send(Promise.resolve());
-      console.log("Success");
-    });
-  }
-  if (id == 4) {
-    pdf.create(t4(req.body), {}).toFile("Resume.pdf", (err) => {
-      if (err) {
-        res.send(Promise.reject());
-        console.log(err);
-      }
-      res.send(Promise.resolve());
-      console.log("Success");
-    });
-  }
-});
-
-app.get("/fetch-pdf", (req, res) => {
-  res.sendFile(`${__dirname}/Resume.pdf`);
-});
-
-// app.use(express.static("../client/build"));
-
-app.listen(port, () => {
-  console.log(`Server is running on port=${port}`);
-});
+};
+start();
