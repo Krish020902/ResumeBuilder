@@ -1,19 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "axios";
 function LogIn() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    f_name: "",
-    l_name: "",
     email: "",
     pass: "",
-    c_pass: "",
   });
-  const onClickHandler = (e) => {
+  const onClickHandler = async (e) => {
     e.preventDefault();
-    navigate("/Form");
+    // try {
+    // console.log(formData);
+    await axios.post("http://localhost:4000/user/login/", formData).then(
+      (res) => {
+        console.log(res.cookie);
+
+        navigate("/Form");
+      },
+      (error) => {
+        window.alert(`${error.response.data.msg}`);
+      }
+    );
+    // } catch (error) {
+    //   console.log(`kjsdbnf ${error}`);
+    // }
   };
   return (
     <section className="text-center text-lg-start">

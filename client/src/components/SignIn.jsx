@@ -15,12 +15,18 @@ function SignIn() {
   const onClickHandler = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/user/signin", formData);
+      await axios
+        .post("http://localhost:4000/user/signin", formData)
+        .then((res) => {
+          console.log(res);
+          if (res.status === 401) {
+            window.alert(res.msg);
+          }
+        });
+      navigate("/Login");
     } catch (error) {
       console.log(`${error}`);
     }
-
-    navigate("/Form");
   };
   return (
     <section className="text-center text-lg-start">
