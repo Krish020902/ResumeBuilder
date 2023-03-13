@@ -21,7 +21,8 @@ const SignUP = async (req, res) => {
 
 const Login = async (req, res) => {
   // await User.deleteMany();
-  console.log(req.body);
+
+  console.log("login controller");
   const { email, pass } = req.body;
   // console.log(req.body);
   if (!email || !pass) {

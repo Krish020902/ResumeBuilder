@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Education from "./Education";
 import Experiences from "./Experiences";
 import PersonalDetails from "./PersonalDetails";
@@ -10,6 +10,28 @@ import { saveAs } from "file-saver";
 import Success from "./Success";
 
 const Form = () => {
+  const [valid, setValid] = useState(false);
+  const ShowForm = async () => {
+    try {
+      const res = await axios.get("/task", {
+        withCredentials: true,
+      });
+
+      if (res) {
+        setValid(true);
+      }
+      // if (res.status === 200) {
+      //   const error = new Error(res.error);
+      //   throw error;
+      // }
+    } catch (error) {
+      console.log(`${error}`);
+    }
+  };
+  useEffect(() => {
+    ShowForm();
+  }, []);
+
   const [success, setSuccess] = useState(false);
   const [formData, setFormData] = useState({
     id: "",
@@ -66,70 +88,80 @@ const Form = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-center">Let's generate your Resume!</h1>
-      <div className="d-flex justify-content-center">
-        <h1 className="text-center">{FormTitle[page]}</h1>
-      </div>
-      <div className="progressbar">
-        <div
-          style={{
-            width:
-              page === 0
-                ? "20%"
-                : page === 1
-                ? "40%"
-                : page === 2
-                ? "60%"
-                : page === 3
-                ? "80%"
-                : "100%",
-          }}
-        ></div>
-      </div>
-      <div>{PageDisplay()}</div>
-      <div className="d-flex justify-content-center gap-3 py-5">
-        <button
-          className="btn btn-dark"
-          disabled={page === 0}
-          onClick={() => {
-            setPage((currPage) => currPage - 1);
-          }}
-        >
-          Prev
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={async () => {
-            if (page === FormTitle.length - 1) {
-              console.log(formData.id);
-              await axios
-                .post(
-                  `http://localhost:4000/task/create-pdf/${formData.id}`,
-                  formData //:$%7BformData.id%7D
-                )
-                .then(() =>
-                  axios.get("http://localhost:4000/task/fetch-pdf", {
-                    responseType: "blob",
-                  })
-                )
-                .then((res) => {
-                  const pdfBlob = new Blob([res.data], {
-                    type: "application/pdf",
-                  });
-                  setSuccess(true && res.status === 200);
-                  saveAs(pdfBlob, "Resume.pdf");
-                });
-            } else {
-              setPage((currPage) => currPage + 1);
-            }
-          }}
-        >
-          {page === FormTitle.length - 1 ? "Download Pdf" : "Next"}
-        </button>
-      </div>
-      {success && <Success />}
-    </div>
+    <>
+      {valid && (
+        <div>
+          <h1 className="text-center">Let's generate your Resume!</h1>
+          <div className="d-flex justify-content-center">
+            <h1 className="text-center">{FormTitle[page]}</h1>
+          </div>
+          <div className="progressbar">
+            <div
+              style={{
+                width:
+                  page === 0
+                    ? "20%"
+                    : page === 1
+                    ? "40%"
+                    : page === 2
+                    ? "60%"
+                    : page === 3
+                    ? "80%"
+                    : "100%",
+              }}
+            ></div>
+          </div>
+          <div>{PageDisplay()}</div>
+          <div className="d-flex justify-content-center gap-3 py-5">
+            <button
+              className="btn btn-dark"
+              disabled={page === 0}
+              onClick={() => {
+                setPage((currPage) => currPage - 1);
+              }}
+            >
+              Prev
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={async () => {
+                if (page === FormTitle.length - 1) {
+                  console.log("form data", formData.id);
+                  await axios
+                    .post(
+                      `/task/create-pdf/${formData.id}`,
+                      formData,
+
+                      { withCredentials: true }
+                    )
+                    .then(() =>
+                      axios.get(
+                        "/task/fetch-pdf",
+                        { withCredentials: true },
+                        {
+                          responseType: "blob",
+                        }
+                      )
+                    )
+                    .then((res) => {
+                      const pdfBlob = new Blob([res.data], {
+                        type: "application/pdf",
+                      });
+                      setSuccess(true && res.status === 200);
+                      saveAs(pdfBlob, "Resume.pdf");
+                    });
+                } else {
+                  setPage((currPage) => currPage + 1);
+                }
+              }}
+            >
+              {page === FormTitle.length - 1 ? "Download Pdf" : "Next"}
+            </button>
+          </div>
+          {success && <Success />}
+        </div>
+      )}
+    </>
   );
 };
 

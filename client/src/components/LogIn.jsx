@@ -13,10 +13,8 @@ function LogIn() {
     e.preventDefault();
     // try {
     // console.log(formData);
-    await axios.post("http://localhost:4000/user/login/", formData).then(
+    await axios.post("/user/login", formData, { withCredentials: true }).then(
       (res) => {
-        console.log(res.cookie);
-
         navigate("/Form");
       },
       (error) => {
